@@ -28,10 +28,6 @@ builder.Services.AddScoped<IQueryHandler<GetBlogPostByIdQuery, BlogPost>, GetBlo
 builder.Services.AddScoped<IRepository<BlogPost>, BlogPostRepository>();
 builder.Services.AddScoped<ICommandHandler<UpdateBlogPostCommand>, UpdateBlogPostCommandHandler>();
 builder.Services.AddScoped<ICommandHandler<DeleteBlogPostCommand>, DeleteBlogPostCommandHandler>();
-
-//builder.Services.AddDbContext<BlogDbContext>(options =>
-//    options.UseNpgsql(Environment.GetEnvironmentVariable("CONNECTION_STRING")));
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
