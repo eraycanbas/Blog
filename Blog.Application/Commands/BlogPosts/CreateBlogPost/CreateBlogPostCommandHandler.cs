@@ -18,7 +18,6 @@ namespace Blog.Application.Commands.BlogPosts.CreateBlogPost
             var blogPost = new BlogPost(command.Title, command.Content, command.AuthorId);
             await blogPostRepository.AddAsync(blogPost);
             await _unitOfWork.CommitAsync();
-
         }
     }
 }

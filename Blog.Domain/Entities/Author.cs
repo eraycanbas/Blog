@@ -8,7 +8,8 @@ namespace Blog.Domain.Entities
         public string Name { get; private set; }
         public Email Email { get; private set; }
 
-        public Author() { }
+        public Author()
+        { }
 
         public Author(string name, Email email)
         {

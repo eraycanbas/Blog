@@ -38,7 +38,6 @@ namespace Blog.API.Controllers
             return Ok(new { Message = "Blog post created successfully." });
         }
 
-        // Endpoint: Get a blog post by ID
         [HttpGet]
         [Route("api/blogposts/{id}")]
         public async Task<IActionResult> GetBlogPostById(int id)
@@ -65,7 +64,6 @@ namespace Blog.API.Controllers
             return Ok(new { Message = "Blog post updated successfully." });
         }
 
-        // Delete a blog post
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBlogPost(int id)
         {

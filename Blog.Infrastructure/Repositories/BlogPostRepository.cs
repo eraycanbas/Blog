@@ -8,7 +8,7 @@ namespace Blog.Infrastructure.Repositories
         private readonly BlogDbContext _dbContext;
 
         public BlogPostRepository(BlogDbContext dbContext) : base(dbContext)
-        {   
+        {
             _dbContext = dbContext;
         }
     }

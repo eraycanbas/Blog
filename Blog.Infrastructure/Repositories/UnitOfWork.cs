@@ -19,8 +19,9 @@ namespace Blog.Infrastructure.Repositories
 
         public async Task<int> CommitAsync()
         {
-          return  await _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync();
         }
+
         public void Dispose()
         {
             _context?.Dispose();

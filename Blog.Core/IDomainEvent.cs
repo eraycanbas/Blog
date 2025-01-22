@@ -1,4 +1,5 @@
 ﻿namespace Blog.Core
 {
-    public interface IDomainEvent { }
+    public interface IDomainEvent
+    { }
 }

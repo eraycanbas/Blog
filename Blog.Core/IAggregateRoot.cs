@@ -1,4 +1,5 @@
 ﻿namespace Blog.Core
 {
-    public interface IAggregateRoot { }
+    public interface IAggregateRoot
+    { }
 }

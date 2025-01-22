@@ -22,5 +22,4 @@ namespace Blog.Domain.Entities
             UpdateTimestamp();
         }
     }
-
 }

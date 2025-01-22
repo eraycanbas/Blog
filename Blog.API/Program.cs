@@ -1,15 +1,14 @@
+using Blog.Application.Commands.BlogPosts.CreateBlogPost;
+using Blog.Application.Commands.BlogPosts.DeleteBlogPost;
+using Blog.Application.Commands.BlogPosts.UpdateBlogPost;
+using Blog.Application.Commands.Comments.AddComment;
 using Blog.Application.Interfaces;
-using Blog.Application.Queries.QueryHandlers;
 using Blog.Application.Queries;
+using Blog.Application.Queries.QueryHandlers;
+using Blog.Domain.Entities;
 using Blog.Infrastructure.Persistence;
 using Blog.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Blog.Domain.Entities;
-using Blog.Application.Commands.BlogPosts.CreateBlogPost;
-using Blog.Application.Commands.Comments.AddComment;
-using Blog.Application.Commands.BlogPosts.DeleteBlogPost;
-using Blog.Application.Commands.BlogPosts.UpdateBlogPost;
-using Blog.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
