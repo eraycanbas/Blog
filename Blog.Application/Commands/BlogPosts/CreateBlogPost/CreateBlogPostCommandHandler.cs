@@ -5,17 +5,20 @@ namespace Blog.Application.Commands.BlogPosts.CreateBlogPost
 {
     public class CreateBlogPostCommandHandler : ICommandHandler<CreateBlogPostCommand>
     {
-        private readonly IRepository<BlogPost> _repository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CreateBlogPostCommandHandler(IRepository<BlogPost> repository)
+        public CreateBlogPostCommandHandler(IUnitOfWork unitOfWork)
         {
-            _repository = repository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task HandleAsync(CreateBlogPostCommand command)
         {
+            var blogPostRepository = _unitOfWork.Repository<BlogPost>();
             var blogPost = new BlogPost(command.Title, command.Content, command.AuthorId);
-            await _repository.AddAsync(blogPost);
+            await blogPostRepository.AddAsync(blogPost);
+            await _unitOfWork.CommitAsync();
+
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Blog.Application.Commands.BlogPosts.CreateBlogPost;
 using Blog.Application.Commands.BlogPosts.DeleteBlogPost;
 using Blog.Application.Commands.BlogPosts.UpdateBlogPost;
-using Blog.Application.Commands.Comments.AddComment;
 using Blog.Application.Interfaces;
 using Blog.Application.Queries;
 using Blog.Domain.Entities;

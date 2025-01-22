@@ -5,16 +5,17 @@ namespace Blog.Application.Commands.BlogPosts.UpdateBlogPost
 {
     public class UpdateBlogPostCommandHandler : ICommandHandler<UpdateBlogPostCommand>
     {
-        private readonly IRepository<BlogPost> _repository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateBlogPostCommandHandler(IRepository<BlogPost> repository)
+        public UpdateBlogPostCommandHandler(IUnitOfWork unitOfWork)
         {
-            _repository = repository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task HandleAsync(UpdateBlogPostCommand command)
         {
-            var blogPost = await _repository.GetByIdAsync(command.BlogPostId);
+            var blogPostRepository = _unitOfWork.Repository<BlogPost>();
+            var blogPost = await blogPostRepository.GetByIdAsync(command.BlogPostId);
             if (blogPost == null)
                 throw new Exception("Blog post not found.");
 
@@ -22,7 +23,7 @@ namespace Blog.Application.Commands.BlogPosts.UpdateBlogPost
             blogPost.GetType().GetProperty("Content")?.SetValue(blogPost, command.Content);
             blogPost.UpdateTimestamp();
 
-            await _repository.UpdateAsync(blogPost);
+            await blogPostRepository.UpdateAsync(blogPost);
         }
     }
 }

@@ -5,20 +5,22 @@ namespace Blog.Application.Commands.BlogPosts.DeleteBlogPost
 {
     public class DeleteBlogPostCommandHandler : ICommandHandler<DeleteBlogPostCommand>
     {
-        private readonly IRepository<BlogPost> _repository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public DeleteBlogPostCommandHandler(IRepository<BlogPost> repository)
+        public DeleteBlogPostCommandHandler(IUnitOfWork unitOfWork)
         {
-            _repository = repository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task HandleAsync(DeleteBlogPostCommand command)
         {
-            var blogPost = await _repository.GetByIdAsync(command.BlogPostId);
+            var blogPostRepository = _unitOfWork.Repository<BlogPost>();
+            var blogPost = await blogPostRepository.GetByIdAsync(command.BlogPostId);
             if (blogPost == null)
                 throw new Exception("Blog post not found.");
 
-            await _repository.DeleteAsync(command.BlogPostId);
+            await blogPostRepository.DeleteAsync(command.BlogPostId);
+            await _unitOfWork.CommitAsync();
         }
     }
 }

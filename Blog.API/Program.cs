@@ -9,6 +9,7 @@ using Blog.Application.Commands.BlogPosts.CreateBlogPost;
 using Blog.Application.Commands.Comments.AddComment;
 using Blog.Application.Commands.BlogPosts.DeleteBlogPost;
 using Blog.Application.Commands.BlogPosts.UpdateBlogPost;
+using Blog.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,12 +23,15 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<BlogDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddScoped<DbContext, BlogDbContext>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ICommandHandler<CreateBlogPostCommand>, CreateBlogPostCommandHandler>();
 builder.Services.AddScoped<ICommandHandler<AddCommentCommand>, AddCommentCommandHandler>();
 builder.Services.AddScoped<IQueryHandler<GetBlogPostByIdQuery, BlogPost>, GetBlogPostByIdQueryHandler>();
 builder.Services.AddScoped<IRepository<BlogPost>, BlogPostRepository>();
 builder.Services.AddScoped<ICommandHandler<UpdateBlogPostCommand>, UpdateBlogPostCommandHandler>();
 builder.Services.AddScoped<ICommandHandler<DeleteBlogPostCommand>, DeleteBlogPostCommandHandler>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
