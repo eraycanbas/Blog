@@ -24,6 +24,7 @@ namespace Blog.Application.Commands.BlogPosts.UpdateBlogPost
             blogPost.UpdateTimestamp();
 
             await blogPostRepository.UpdateAsync(blogPost);
+            await _unitOfWork.CommitAsync();
         }
     }
 }

@@ -12,7 +12,12 @@
 
   <ItemGroup>
     <Folder Include="Commands\Authors\" />
+    <Folder Include="Commands\Comments\" />
     <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.11.0" />
   </ItemGroup>
 
 </Project>

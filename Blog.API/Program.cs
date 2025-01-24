@@ -8,6 +8,7 @@ using Blog.Application.Queries.QueryHandlers;
 using Blog.Domain.Entities;
 using Blog.Infrastructure.Persistence;
 using Blog.Infrastructure.Repositories;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +31,8 @@ builder.Services.AddScoped<IQueryHandler<GetBlogPostByIdQuery, BlogPost>, GetBlo
 builder.Services.AddScoped<IRepository<BlogPost>, BlogPostRepository>();
 builder.Services.AddScoped<ICommandHandler<UpdateBlogPostCommand>, UpdateBlogPostCommandHandler>();
 builder.Services.AddScoped<ICommandHandler<DeleteBlogPostCommand>, DeleteBlogPostCommandHandler>();
+builder.Services.AddTransient<IValidator<CreateBlogPostCommand>, CreateBlogPostCommandValidator>();
+
 
 var app = builder.Build();
 
