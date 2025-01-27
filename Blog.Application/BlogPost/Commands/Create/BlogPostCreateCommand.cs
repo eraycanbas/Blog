@@ -1,8 +1,8 @@
 ﻿using MediatR;
 
-namespace Blog.Application.Commands.BlogPosts.CreateBlogPost
+namespace Blog.Application.BlogPost.Commands.Create
 {
-    public class CreateBlogPostCommand: IRequest<int>
+    public class BlogPostCreateCommand : IRequest<int>
     {
         public string Title { get; set; }
         public string Content { get; set; }

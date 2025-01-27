@@ -1,4 +1,4 @@
-﻿namespace Blog.Application.Interfaces
+﻿namespace Blog.Core
 {
     public interface IQueryHandler<TQuery, TResult>
     {

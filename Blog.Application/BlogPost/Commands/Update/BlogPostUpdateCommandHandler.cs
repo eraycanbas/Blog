@@ -1,20 +1,20 @@
-﻿using Blog.Application.Interfaces;
+﻿using Blog.Core;
 using Blog.Domain.Entities;
 
-namespace Blog.Application.Commands.BlogPosts.UpdateBlogPost
+namespace Blog.Application.BlogPost.Commands.Update
 {
-    public class UpdateBlogPostCommandHandler : ICommandHandler<UpdateBlogPostCommand>
+    public class BlogPostUpdateCommandHandler : ICommandHandler<BlogPostUpdateCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateBlogPostCommandHandler(IUnitOfWork unitOfWork)
+        public BlogPostUpdateCommandHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-        public async Task HandleAsync(UpdateBlogPostCommand command)
+        public async Task HandleAsync(BlogPostUpdateCommand command)
         {
-            var blogPostRepository = _unitOfWork.Repository<BlogPost>();
+            var blogPostRepository = _unitOfWork.Repository<BlogPostEntity>();
             var blogPost = await blogPostRepository.GetByIdAsync(command.BlogPostId);
             if (blogPost == null)
                 throw new Exception("Blog post not found.");

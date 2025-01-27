@@ -1,14 +1,14 @@
-﻿using Blog.Application.Interfaces;
+﻿using Blog.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Infrastructure.Repositories
 {
-    public class EfRepository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : class, IAggregateRoot
     {
         private readonly DbContext _context;
         private readonly DbSet<T> _dbSet;
 
-        public EfRepository(DbContext context)
+        public Repository(DbContext context)
         {
             _context = context;
             _dbSet = _context.Set<T>();

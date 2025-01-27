@@ -1,4 +1,4 @@
-﻿using Blog.Application.Commands.BlogPosts.CreateBlogPost;
+﻿using Blog.Application.BlogPost.Commands.Create;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,7 +8,6 @@ namespace Blog.API.Controllers
     {
         private readonly IMediator _mediator;
 
-
         public BlogPostController(IMediator mediator)
         {
             _mediator = mediator;
@@ -16,7 +15,7 @@ namespace Blog.API.Controllers
 
         [HttpPost]
         [Route("api/blogposts")]
-        public async Task<IActionResult> CreateBlogPost([FromBody] CreateBlogPostCommand command)
+        public async Task<IActionResult> CreateBlogPost([FromBody] BlogPostCreateCommand command)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

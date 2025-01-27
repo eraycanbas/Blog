@@ -1,6 +1,6 @@
-﻿namespace Blog.Application.Commands.BlogPosts.UpdateBlogPost
+﻿namespace Blog.Application.BlogPost.Commands.Update
 {
-    public class UpdateBlogPostCommand
+    public class BlogPostUpdateCommand
     {
         public int BlogPostId { get; set; }
         public string Title { get; set; }

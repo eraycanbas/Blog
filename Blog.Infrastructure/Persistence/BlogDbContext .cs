@@ -10,13 +10,13 @@ namespace Blog.Infrastructure.Persistence
         {
         }
 
-        public DbSet<BlogPost> BlogPosts { get; set; }
+        public DbSet<BlogPostEntity> BlogPosts { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Author> Authors { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<BlogPost>()
+            modelBuilder.Entity<BlogPostEntity>()
                .Property(p => p.Id)
                .ValueGeneratedOnAdd();
 

@@ -2,14 +2,14 @@
 
 namespace Blog.Domain.Entities
 {
-    public class BlogPost : BaseEntity, IAggregateRoot
+    public class BlogPostEntity : BaseEntity, IAggregateRoot
     {
         public string Title { get; private set; }
         public string Content { get; private set; }
         public int AuthorId { get; private set; }
         public List<Comment> Comments { get; private set; } = new();
 
-        public BlogPost(string title, string content, int authorId)
+        public BlogPostEntity(string title, string content, int authorId)
         {
             Title = title;
             Content = content;

@@ -3,7 +3,7 @@ using Blog.Infrastructure.Persistence;
 
 namespace Blog.Infrastructure.Repositories
 {
-    public class BlogPostRepository : EfRepository<BlogPost>
+    public class BlogPostRepository : Repository<BlogPostEntity>
     {
         private readonly BlogDbContext _dbContext;
 

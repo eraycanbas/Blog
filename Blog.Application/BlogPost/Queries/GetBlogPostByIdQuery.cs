@@ -1,4 +1,4 @@
-﻿namespace Blog.Application.Queries
+﻿namespace Blog.Application.BlogPost.Queries
 {
     public class GetBlogPostByIdQuery
     {

@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 
-namespace Blog.Application.Commands.BlogPosts.CreateBlogPost
+namespace Blog.Application.BlogPost.Commands.Create
 {
-    public class CreateBlogPostCommandValidator : AbstractValidator<CreateBlogPostCommand>
+    public class BlogPostCreateCommandValidator : AbstractValidator<BlogPostCreateCommand>
     {
-        public CreateBlogPostCommandValidator()
+        public BlogPostCreateCommandValidator()
         {
             RuleFor(x => x.Title)
                 .NotEmpty().WithMessage("Title is required.")
