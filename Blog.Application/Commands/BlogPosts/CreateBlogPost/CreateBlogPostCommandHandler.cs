@@ -1,14 +1,14 @@
 ﻿using Blog.Application.Interfaces;
 using Blog.Domain.Entities;
 using FluentValidation;
+using MediatR;
 
 namespace Blog.Application.Commands.BlogPosts.CreateBlogPost
 {
-    public class CreateBlogPostCommandHandler : ICommandHandler<CreateBlogPostCommand>
+    public class CreateBlogPostCommandHandler : IRequestHandler<CreateBlogPostCommand, int>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IValidator<CreateBlogPostCommand> _validator;
-
 
         public CreateBlogPostCommandHandler(IUnitOfWork unitOfWork, IValidator<CreateBlogPostCommand> validator)
         {
@@ -16,9 +16,9 @@ namespace Blog.Application.Commands.BlogPosts.CreateBlogPost
             _validator = validator;
         }
 
-        public async Task HandleAsync(CreateBlogPostCommand command)
+        public async Task<int> Handle(CreateBlogPostCommand request, CancellationToken cancellationToken)
         {
-            var validationResult = await _validator.ValidateAsync(command);
+            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
 
             if (!validationResult.IsValid)
             {
@@ -27,12 +27,14 @@ namespace Blog.Application.Commands.BlogPosts.CreateBlogPost
 
             var blogPostRepository = _unitOfWork.Repository<BlogPost>();
             var blogPost = new BlogPost(
-                command.Title,
-                command.Content,
-                command.AuthorId);
+                request.Title,
+                request.Content,
+                request.AuthorId);
 
             await blogPostRepository.AddAsync(blogPost);
             await _unitOfWork.CommitAsync();
+            return blogPost.Id;
         }
+
     }
 }

@@ -1,30 +1,17 @@
 ﻿using Blog.Application.Commands.BlogPosts.CreateBlogPost;
-using Blog.Application.Commands.BlogPosts.DeleteBlogPost;
-using Blog.Application.Commands.BlogPosts.UpdateBlogPost;
-using Blog.Application.Interfaces;
-using Blog.Application.Queries;
-using Blog.Domain.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.API.Controllers
 {
     public class BlogPostController : Controller
     {
-        private readonly ICommandHandler<CreateBlogPostCommand> _createBlogPostCommandHandler;
-        private readonly ICommandHandler<UpdateBlogPostCommand> _updateBlogPostCommandHandler;
-        private readonly ICommandHandler<DeleteBlogPostCommand> _deleteBlogPostCommandHandler;
-        private readonly IQueryHandler<GetBlogPostByIdQuery, BlogPost> _getBlogPostByIdQueryHandler;
+        private readonly IMediator _mediator;
 
-        public BlogPostController(
-         ICommandHandler<CreateBlogPostCommand> createBlogPostCommandHandler,
-         ICommandHandler<UpdateBlogPostCommand> updateBlogPostCommandHandler,
-         ICommandHandler<DeleteBlogPostCommand> deleteBlogPostCommandHandler,
-         IQueryHandler<GetBlogPostByIdQuery, BlogPost> getBlogPostByIdQueryHandler)
+
+        public BlogPostController(IMediator mediator)
         {
-            _createBlogPostCommandHandler = createBlogPostCommandHandler;
-            _updateBlogPostCommandHandler = updateBlogPostCommandHandler;
-            _deleteBlogPostCommandHandler = deleteBlogPostCommandHandler;
-            _getBlogPostByIdQueryHandler = getBlogPostByIdQueryHandler;
+            _mediator = mediator;
         }
 
         [HttpPost]
@@ -34,42 +21,42 @@ namespace Blog.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _createBlogPostCommandHandler.HandleAsync(command);
+            var id = await _mediator.Send(command);
             return Ok(new { Message = "Blog post created successfully." });
         }
 
-        [HttpGet]
-        [Route("api/blogposts/{id}")]
-        public async Task<IActionResult> GetBlogPostById(int id)
-        {
-            var query = new GetBlogPostByIdQuery { BlogPostId = id };
-            var blogPost = await _getBlogPostByIdQueryHandler.HandleAsync(query);
+        //[HttpGet]
+        //[Route("api/blogposts/{id}")]
+        //public async Task<IActionResult> GetBlogPostById(int id)
+        //{
+        //    var query = new GetBlogPostByIdQuery { BlogPostId = id };
+        //    var blogPost = await _getBlogPostByIdQueryHandler.HandleAsync(query);
 
-            if (blogPost == null)
-                return NotFound(new { Message = "Blog post not found." });
+        //    if (blogPost == null)
+        //        return NotFound(new { Message = "Blog post not found." });
 
-            return Ok(blogPost);
-        }
+        //    return Ok(blogPost);
+        //}
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBlogPost(int id, [FromBody] UpdateBlogPostCommand command)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> UpdateBlogPost(int id, [FromBody] UpdateBlogPostCommand command)
+        //{
+        //    if (!ModelState.IsValid)
+        //        return BadRequest(ModelState);
 
-            if (id != command.BlogPostId)
-                return BadRequest("BlogPostId in the URL and body do not match.");
+        //    if (id != command.BlogPostId)
+        //        return BadRequest("BlogPostId in the URL and body do not match.");
 
-            await _updateBlogPostCommandHandler.HandleAsync(command);
-            return Ok(new { Message = "Blog post updated successfully." });
-        }
+        //    await _updateBlogPostCommandHandler.HandleAsync(command);
+        //    return Ok(new { Message = "Blog post updated successfully." });
+        //}
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBlogPost(int id)
-        {
-            var command = new DeleteBlogPostCommand { BlogPostId = id };
-            await _deleteBlogPostCommandHandler.HandleAsync(command);
-            return Ok(new { Message = "Blog post deleted successfully." });
-        }
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteBlogPost(int id)
+        //{
+        //    var command = new DeleteBlogPostCommand { BlogPostId = id };
+        //    await _deleteBlogPostCommandHandler.HandleAsync(command);
+        //    return Ok(new { Message = "Blog post deleted successfully." });
+        //}
     }
 }

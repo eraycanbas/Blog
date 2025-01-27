@@ -16,16 +16,20 @@ namespace Blog.Infrastructure.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Author>()
-                .HasKey(a => a.Id);
+            modelBuilder.Entity<BlogPost>()
+               .Property(p => p.Id)
+               .ValueGeneratedOnAdd();
 
-            modelBuilder.Entity<Author>()
-                .Property(a => a.Name)
-                .IsRequired();
+            //modelBuilder.Entity<Author>()
+            //    .HasKey(a => a.Id);
 
-            modelBuilder.Entity<Author>()
-                .Property(a => a.Email)
-                .IsRequired();
+            //modelBuilder.Entity<Author>()
+            //    .Property(a => a.Name)
+            //    .IsRequired();
+
+            //modelBuilder.Entity<Author>()
+            //    .Property(a => a.Email)
+            //    .IsRequired();
 
             modelBuilder.Entity<Author>()
                 .Property(a => a.Email)

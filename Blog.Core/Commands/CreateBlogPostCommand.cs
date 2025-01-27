@@ -1,6 +1,8 @@
-﻿namespace Blog.Application.Commands.BlogPosts.CreateBlogPost
+﻿using MediatR;
+
+namespace Blog.Application.Commands.BlogPosts.CreateBlogPost
 {
-    public class CreateBlogPostCommand
+    public class CreateBlogPostCommand: IRequest<int>
     {
         public string Title { get; set; }
         public string Content { get; set; }

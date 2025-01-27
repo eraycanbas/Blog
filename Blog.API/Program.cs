@@ -1,22 +1,15 @@
-using Blog.Application.Commands.BlogPosts.CreateBlogPost;
-using Blog.Application.Commands.BlogPosts.DeleteBlogPost;
-using Blog.Application.Commands.BlogPosts.UpdateBlogPost;
-using Blog.Application.Commands.Comments.AddComment;
+﻿using Blog.Application.Commands.BlogPosts.CreateBlogPost;
 using Blog.Application.Interfaces;
-using Blog.Application.Queries;
-using Blog.Application.Queries.QueryHandlers;
-using Blog.Domain.Entities;
 using Blog.Infrastructure.Persistence;
 using Blog.Infrastructure.Repositories;
 using FluentValidation;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -25,14 +18,10 @@ builder.Services.AddDbContext<BlogDbContext>(options =>
 
 builder.Services.AddScoped<DbContext, BlogDbContext>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<ICommandHandler<CreateBlogPostCommand>, CreateBlogPostCommandHandler>();
-builder.Services.AddScoped<ICommandHandler<AddCommentCommand>, AddCommentCommandHandler>();
-builder.Services.AddScoped<IQueryHandler<GetBlogPostByIdQuery, BlogPost>, GetBlogPostByIdQueryHandler>();
-builder.Services.AddScoped<IRepository<BlogPost>, BlogPostRepository>();
-builder.Services.AddScoped<ICommandHandler<UpdateBlogPostCommand>, UpdateBlogPostCommandHandler>();
-builder.Services.AddScoped<ICommandHandler<DeleteBlogPostCommand>, DeleteBlogPostCommandHandler>();
-builder.Services.AddTransient<IValidator<CreateBlogPostCommand>, CreateBlogPostCommandValidator>();
+builder.Services.AddScoped<IMediator, Mediator>();
 
+builder.Services.AddScoped<IValidator<CreateBlogPostCommand>, CreateBlogPostCommandValidator>();
+builder.Services.AddScoped<IRequestHandler<CreateBlogPostCommand, int>, CreateBlogPostCommandHandler>();
 
 var app = builder.Build();
 
