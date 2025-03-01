@@ -1,6 +1,8 @@
-﻿namespace Blog.Application.BlogPost.Commands.Update
+﻿using MediatR;
+
+namespace Blog.Application.BlogPost.Commands.Update
 {
-    public class BlogPostUpdateCommand
+    public class BlogPostUpdateCommand: IRequest
     {
         public int BlogPostId { get; set; }
         public string Title { get; set; }

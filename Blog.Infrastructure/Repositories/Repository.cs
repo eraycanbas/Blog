@@ -1,5 +1,6 @@
 ﻿using Blog.Core;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 namespace Blog.Infrastructure.Repositories
 {
@@ -14,19 +15,19 @@ namespace Blog.Infrastructure.Repositories
             _dbSet = _context.Set<T>();
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public async Task<T> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
-            return await _dbSet.FindAsync(id);
+            return await _dbSet.FindAsync(id, cancellationToken);
         }
 
-        public async Task<List<T>> GetAllAsync()
+        public async Task<List<T>> GetAllAsync(CancellationToken cancellationToken)
         {
-            return await _dbSet.ToListAsync();
+            return await _dbSet.ToListAsync(cancellationToken);
         }
 
-        public async Task AddAsync(T entity)
+        public async Task AddAsync(T entity, CancellationToken cancellationToken)
         {
-            await _dbSet.AddAsync(entity);
+            await _dbSet.AddAsync(entity, cancellationToken);
         }
 
         public async Task UpdateAsync(T entity)
@@ -34,18 +35,18 @@ namespace Blog.Infrastructure.Repositories
             _dbSet.Update(entity);
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id, CancellationToken cancellationToken)
         {
-            var entity = await _dbSet.FindAsync(id);
+            var entity = await _dbSet.FindAsync(id, cancellationToken);
             if (entity != null)
             {
                 _dbSet.Remove(entity);
             }
         }
 
-        public async Task<bool> ExistsAsync(int id)
+        public async Task<bool> ExistsAsync(int id, CancellationToken cancellationToken)
         {
-            return await _dbSet.FindAsync(id) != null;
+            return await _dbSet.FindAsync(id, cancellationToken) != null;
         }
     }
 }

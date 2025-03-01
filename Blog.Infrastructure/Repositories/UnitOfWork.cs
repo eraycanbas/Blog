@@ -6,7 +6,6 @@ namespace Blog.Infrastructure.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         private readonly DbContext _context;
-        private readonly Dictionary<Type, object> _repositories = new();
 
         public UnitOfWork(DbContext context)
         {

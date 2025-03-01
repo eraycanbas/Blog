@@ -1,6 +1,8 @@
-﻿namespace Blog.Application.BlogPost.Commands.Delete
+﻿using MediatR;
+
+namespace Blog.Application.BlogPost.Commands.Delete
 {
-    public class BlogPostDeleteCommand
+    public class BlogPostDeleteCommand: IRequest
     {
         public int BlogPostId { get; set; }
     }

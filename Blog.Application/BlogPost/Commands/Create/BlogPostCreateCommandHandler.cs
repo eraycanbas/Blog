@@ -1,5 +1,6 @@
 ﻿using Blog.Core;
 using Blog.Domain.Entities;
+using Blog.Domain.Events.BlogPost.CreateEvent;
 using FluentValidation;
 using MediatR;
 
@@ -9,11 +10,15 @@ namespace Blog.Application.BlogPost.Commands.Create
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IValidator<BlogPostCreateCommand> _validator;
+        private readonly IMediator _mediator;
 
-        public BlogPostCreateCommandHandler(IUnitOfWork unitOfWork, IValidator<BlogPostCreateCommand> validator)
+        public BlogPostCreateCommandHandler(IUnitOfWork unitOfWork,
+                                            IValidator<BlogPostCreateCommand> validator,
+                                            IMediator mediator)
         {
             _unitOfWork = unitOfWork;
             _validator = validator;
+            _mediator = mediator;
         }
 
         public async Task<int> Handle(BlogPostCreateCommand request, CancellationToken cancellationToken)
@@ -31,8 +36,12 @@ namespace Blog.Application.BlogPost.Commands.Create
                 request.Content,
                 request.AuthorId);
 
-            await blogPostRepository.AddAsync(blogPost);
+            await blogPostRepository.AddAsync(blogPost, cancellationToken);
             await _unitOfWork.CommitAsync();
+
+            var blogPostCreatedEvent = new BlogPostCreatedEvent(blogPost.Id, blogPost.Title, blogPost.AuthorId);
+            await _mediator.Publish(blogPostCreatedEvent, cancellationToken);
+
             return blogPost.Id;
         }
     }

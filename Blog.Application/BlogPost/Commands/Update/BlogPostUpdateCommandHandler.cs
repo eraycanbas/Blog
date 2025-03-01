@@ -1,9 +1,10 @@
 ﻿using Blog.Core;
 using Blog.Domain.Entities;
+using MediatR;
 
 namespace Blog.Application.BlogPost.Commands.Update
 {
-    public class BlogPostUpdateCommandHandler : ICommandHandler<BlogPostUpdateCommand>
+    public class BlogPostUpdateCommandHandler : IRequestHandler<BlogPostUpdateCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -12,10 +13,10 @@ namespace Blog.Application.BlogPost.Commands.Update
             _unitOfWork = unitOfWork;
         }
 
-        public async Task HandleAsync(BlogPostUpdateCommand command)
+        public async Task Handle(BlogPostUpdateCommand command, CancellationToken cancellationToken)
         {
             var blogPostRepository = _unitOfWork.Repository<BlogPostEntity>();
-            var blogPost = await blogPostRepository.GetByIdAsync(command.BlogPostId);
+            var blogPost = await blogPostRepository.GetByIdAsync(command.BlogPostId, cancellationToken);
             if (blogPost == null)
                 throw new Exception("Blog post not found.");
 
